@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-12">
+    <h1 class="text-2xl font-bold mb-4">Post a Project</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Project title" class="w-full p-2 mb-3 rounded bg-white/5 border border-white/10">
+        <textarea name="description" placeholder="Describe your project" class="w-full p-2 mb-3 rounded bg-white/5 border border-white/10" rows="5"></textarea>
+        <input type="text" name="roles_needed" placeholder="Roles needed (e.g. Frontend Developer, UI Designer)" class="w-full p-2 mb-3 rounded bg-white/5 border border-white/10">
+        <button type="submit" class="bg-blue-600 px-4 py-2 rounded-lg">Post Project</button>
+    </form>
+</div>
+{% endblock %}

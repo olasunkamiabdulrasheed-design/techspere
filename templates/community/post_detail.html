@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-12">
+    <h1 class="text-2xl font-bold">{{ post.title }}</h1>
+    <p class="text-sm text-gray-400">by {{ post.author }}</p>
+    <p class="mt-4">{{ post.content }}</p>
+
+    <h3 class="mt-8 font-semibold">Comments</h3>
+    {% for comment in comments %}
+    <div class="mt-2 p-3 bg-white/5 rounded-lg">
+        <p class="text-sm text-gray-400">{{ comment.author }}</p>
+        <p>{{ comment.content }}</p>
+    </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <textarea name="content" class="w-full p-2 rounded bg-white/5 border border-white/10" placeholder="Write a comment..."></textarea>
+        <button type="submit" class="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Comment</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

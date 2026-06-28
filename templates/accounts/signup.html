@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto mt-20 p-8 bg-white/5 rounded-xl border border-white/10">
+    <h1 class="text-2xl font-bold mb-6">Join TechSphere</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg mt-4">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

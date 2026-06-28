@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- HERO -->
+<div class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+        <div class="absolute top-0 -left-20 w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-40 right-0 w-96 h-96 bg-purple-600/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+    <div class="max-w-3xl mx-auto text-center px-6 relative z-10">
+        <p class="text-cyan-400 font-mono text-sm mb-4">// the network for builders</p>
+        <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            Learn, Connect, Build, and Grow in Tech
+        </h1>
+        <p class="text-gray-400 text-lg mb-10">
+            Join developers, designers, AI engineers, and founders building real things together — not just talking about it.
+        </p>
+        <div class="flex gap-4 justify-center">
+            <a href="{% url 'category_list' %}" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-medium transition">Join Community</a>
+            <a href="{% url 'project_list' %}" class="border border-white/20 hover:border-blue-500 px-6 py-3 rounded-lg font-medium transition">Find Teammates</a>
+        </div>
+    </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="text-center text-sm text-gray-500 font-mono py-6 border-y border-white/10">
+    builders joining daily · channels growing · projects shipping
+</div>
+
+<!-- AUDIENCE STRIP -->
+<div class="max-w-5xl mx-auto px-6 py-12 text-center">
+    <p class="text-gray-500 text-sm mb-4">Built for every kind of builder</p>
+    <div class="flex flex-wrap justify-center gap-3">
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Developers</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Designers</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">AI Engineers</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Cybersecurity Pros</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Founders</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Freelancers</span>
+        <span class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300">Students</span>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-2xl font-bold text-center mb-2">How TechSphere works</h2>
+    <p class="text-gray-400 text-center mb-12">Three steps from signing up to shipping something real.</p>
+
+    <div class="grid md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-8 left-0 right-0 h-px bg-gradient-to-r from-blue-500/0 via-blue-500/40 to-cyan-500/0"></div>
+
+        <div class="relative text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-mono font-bold text-lg mb-4">01</div>
+            <h3 class="font-semibold text-lg mb-2">Build your profile</h3>
+            <p class="text-gray-400 text-sm">Sign up, add your skills, GitHub, and portfolio — your home base on TechSphere.</p>
+        </div>
+
+        <div class="relative text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400 font-mono font-bold text-lg mb-4">02</div>
+            <h3 class="font-semibold text-lg mb-2">Join channels, find a team</h3>
+            <p class="text-gray-400 text-sm">Jump into topic channels, post what you're building, and apply to join projects that need your skills.</p>
+        </div>
+
+        <div class="relative text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-mono font-bold text-lg mb-4">03</div>
+            <h3 class="font-semibold text-lg mb-2">Build, ship, grow</h3>
+            <p class="text-gray-400 text-sm">Collaborate with your team, ship real projects, and grow your skills and career along the way.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FEATURE GRID -->
+<div class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-2xl font-bold text-center mb-12">Everything you need to grow in tech</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <a href="{% url 'category_list' %}" class="p-6 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500 transition">
+            <p class="text-cyan-400 font-mono text-xs mb-2">#channels</p>
+            <h3 class="font-semibold text-lg mb-2">Community Channels</h3>
+            <p class="text-gray-400 text-sm">Join topic-based channels — Python, AI, Cybersecurity, Career Advice, and more.</p>
+        </a>
+
+        <a href="{% url 'project_list' %}" class="p-6 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500 transition">
+            <p class="text-cyan-400 font-mono text-xs mb-2">#teams</p>
+            <h3 class="font-semibold text-lg mb-2">Team Finder</h3>
+            <p class="text-gray-400 text-sm">Post your project, list the roles you need, and find people to build it with.</p>
+        </a>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#courses</p>
+            <h3 class="font-semibold text-lg mb-2">Live Classes <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Learn from recorded lessons and live workshops taught by the community.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#jobs</p>
+            <h3 class="font-semibold text-lg mb-2">Job Board <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Startups post openings, members apply directly.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#incubator</p>
+            <h3 class="font-semibold text-lg mb-2">Startup Incubator <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Pitch ideas, find co-founders, track progress toward an MVP.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#events</p>
+            <h3 class="font-semibold text-lg mb-2">Hackathons & Events <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Meetups, webinars, and monthly hackathons with certificates.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#resources</p>
+            <h3 class="font-semibold text-lg mb-2">Resource Library <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Roadmaps, templates, interview prep, and more — all in one place.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#ai-tools</p>
+            <h3 class="font-semibold text-lg mb-2">AI Tools <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">AI resume review, project idea generator, and interview prep.</p>
+        </div>
+
+        <div class="p-6 bg-white/5 rounded-xl border border-white/10 opacity-60">
+            <p class="text-purple-400 font-mono text-xs mb-2">#gamification</p>
+            <h3 class="font-semibold text-lg mb-2">XP & Badges <span class="text-xs text-gray-500">(coming soon)</span></h3>
+            <p class="text-gray-400 text-sm">Earn XP and badges as you post, help others, and ship projects.</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-2xl font-bold text-center mb-10">A home base for everything you're building</h2>
+    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <div class="flex border-b border-white/10 text-sm">
+            <div class="px-5 py-3 bg-white/5 border-r border-white/10 text-blue-400">Feed</div>
+            <div class="px-5 py-3 text-gray-500 border-r border-white/10">Channels</div>
+            <div class="px-5 py-3 text-gray-500">Teams</div>
+        </div>
+        <div class="p-6 space-y-3">
+            <div class="p-3 bg-white/5 rounded-lg border border-white/10">
+                <p class="text-sm text-gray-400">#python</p>
+                <p class="text-sm mt-1">Just shipped my first Django API — feedback welcome!</p>
+            </div>
+            <div class="p-3 bg-white/5 rounded-lg border border-white/10">
+                <p class="text-sm text-gray-400">#teams</p>
+                <p class="text-sm mt-1">Looking for a UI designer for a FinTech MVP — 2 spots left.</p>
+            </div>
+            <div class="p-3 bg-white/5 rounded-lg border border-white/10">
+                <p class="text-sm text-gray-400">#ai</p>
+                <p class="text-sm mt-1">Anyone tried fine-tuning small models for classification?</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA BAND -->
+<div class="max-w-3xl mx-auto text-center px-6 py-16">
+    <h2 class="text-2xl font-bold mb-4">Ready to stop learning alone?</h2>
+    <a href="{% url 'signup' %}" class="inline-block bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-medium transition">Join TechSphere</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/10 py-8 text-center text-sm text-gray-500">
+    <p>&copy; 2026 TechSphere. Built for developers, by developers.</p>
+</footer>
+
+{% endblock %}

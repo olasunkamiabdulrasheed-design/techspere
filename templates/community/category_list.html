@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-12">
+    <h1 class="text-3xl font-bold mb-6">Channels</h1>
+    <div class="grid gap-4">
+        {% for category in categories %}
+        <a href="{% url 'post_list' category.slug %}" class="block p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

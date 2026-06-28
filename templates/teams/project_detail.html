@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-12">
+    <h1 class="text-2xl font-bold">{{ project.title }}</h1>
+    <p class="text-sm text-gray-400">by {{ project.creator }}</p>
+    <p class="mt-4">{{ project.description }}</p>
+    <p class="mt-3 text-blue-400">Needs: {{ project.roles_needed }}</p>
+
+    {% if user.is_authenticated %}
+        {% if already_applied %}
+        <p class="mt-6 text-green-400">You've already applied to this project.</p>
+        {% else %}
+        <form method="post" action="{% url 'join_request_create' project.pk %}" class="mt-6">
+            {% csrf_token %}
+            <textarea name="message" placeholder="Why do you want to join? (optional)" class="w-full p-2 rounded bg-white/5 border border-white/10" rows="3"></textarea>
+            <button type="submit" class="mt-2 bg-blue-600 px-4 py-2 rounded-lg">Apply to Join</button>
+        </form>
+        {% endif %}
+    {% endif %}
+
+    {% if join_requests %}
+    <div class="mt-8">
+        <h3 class="font-semibold mb-3">Join Requests</h3>
+        {% for jr in join_requests %}
+        <div class="p-3 bg-white/5 rounded-lg mb-2">
+            <p class="text-sm text-gray-400">{{ jr.applicant }} — <span class="text-blue-400">{{ jr.status }}</span></p>
+            <p class="text-sm mt-1">{{ jr.message }}</p>
+            {% if jr.status == 'pending' %}
+            <div class="mt-2 flex gap-2">
+                <a href="{% url 'manage_join_request' jr.pk 'accept' %}" class="text-green-400 text-sm">Accept</a>
+                <a href="{% url 'manage_join_request' jr.pk 'reject' %}" class="text-red-400 text-sm">Reject</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

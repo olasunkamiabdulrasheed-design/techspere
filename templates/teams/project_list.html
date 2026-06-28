@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-12">
+    <h1 class="text-3xl font-bold mb-6">Find a Team</h1>
+    <a href="{% url 'project_create' %}" class="text-blue-400">+ Post a Project</a>
+    <div class="grid gap-4 mt-6">
+        {% for project in projects %}
+        <a href="{% url 'project_detail' project.pk %}" class="block p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500">
+            <h2 class="font-semibold">{{ project.title }}</h2>
+            <p class="text-sm text-gray-400">by {{ project.creator }}</p>
+            <p class="text-sm text-blue-400 mt-1">Needs: {{ project.roles_needed }}</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
