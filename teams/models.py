@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.conf import settings
 
 class Project(models.Model):
@@ -13,6 +10,13 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def roles_list(self):
+        if not self.roles_needed:
+            return []
+        return [r.strip() for r in self.roles_needed.split(',') if r.strip()]
+
 
 class JoinRequest(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='join_requests')

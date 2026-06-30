@@ -1,16 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="max-w-3xl mx-auto mt-12">
-    <h1 class="text-3xl font-bold mb-6">Find a Team</h1>
-    <a href="{% url 'project_create' %}" class="text-blue-400">+ Post a Project</a>
-    <div class="grid gap-4 mt-6">
+
+<!-- HEADER -->
+<div class="border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <p class="text-cyan-400 font-mono text-xs mb-2">#teams</p>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Find Your Team</h1>
+                <p class="text-gray-400">Browse projects, find the role that fits, and start building.</p>
+            </div>
+            <a href="{% url 'project_create' %}"
+                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-lg font-medium transition whitespace-nowrap">
+                + Post a Project
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- PROJECT GRID -->
+<div class="max-w-6xl mx-auto px-6 py-12">
+    {% if projects %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {% for project in projects %}
-        <a href="{% url 'project_detail' project.pk %}" class="block p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500">
-            <h2 class="font-semibold">{{ project.title }}</h2>
-            <p class="text-sm text-gray-400">by {{ project.creator }}</p>
-            <p class="text-sm text-blue-400 mt-1">Needs: {{ project.roles_needed }}</p>
+        <a href="{% url 'project_detail' project.pk %}"
+            class="group block p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-blue-500/60 hover:bg-white/[0.07] transition">
+
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
+                    {{ project.creator.username|slice:":1"|upper }}
+                </div>
+                <span class="text-xs text-gray-500">{{ project.created_at|timesince }} ago</span>
+            </div>
+
+            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-400 transition">{{ project.title }}</h3>
+            <p class="text-sm text-gray-400 mb-4 line-clamp-2">{{ project.description }}</p>
+
+            <div class="flex flex-wrap gap-1.5">
+                {% for role in project.roles_list %}
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20">{{ role }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-gray-500">
+                <span>by {{ project.creator.username }}</span>
+                <span class="text-blue-400 group-hover:translate-x-1 transition inline-block">View &rarr;</span>
+            </div>
         </a>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="text-center py-24">
+        <p class="text-gray-500 mb-4">No projects posted yet.</p>
+        <a href="{% url 'project_create' %}" class="text-blue-400 hover:underline">Be the first to post one &rarr;</a>
+    </div>
+    {% endif %}
 </div>
+
 {% endblock %}
