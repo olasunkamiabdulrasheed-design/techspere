@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Category, Post, Comment
-# Create your views here.
-
+from notifications.models import Notification
 
 def category_list(request):
     categories = Category.objects.all()
@@ -20,8 +18,16 @@ def post_detail(request, pk):
 
     if request.method == 'POST':
         content = request.POST.get('content')
-        if content:
+        if content and request.user.is_authenticated:
             Comment.objects.create(post=post, author=request.user, content=content)
+            if request.user != post.author:
+                Notification.objects.create(
+                    recipient=post.author,
+                    sender=request.user,
+                    notification_type='comment',
+                    message=f"{request.user.username} commented on your post: {post.title}",
+                    link=f"/community/post/{post.pk}/"
+                )
             return redirect('post_detail', pk=post.pk)
 
     return render(request, 'community/post_detail.html', {'post': post, 'comments': comments})

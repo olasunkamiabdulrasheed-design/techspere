@@ -165,6 +165,8 @@ INSTALLED_APPS = [
     'community',
     'teams',
     'core',
+    'search',
+    'notifications',
 ]
 
 MIDDLEWARE = [

@@ -23,6 +23,8 @@ urlpatterns = [
     path('community/', include('community.urls')),
     path('teams/', include('teams.urls')),
     path('', core_views.home_view, name='home'),
+    path('search/', include('search.urls')),
+    path('notifications/', include('notifications.urls')),
 ]
 
 
