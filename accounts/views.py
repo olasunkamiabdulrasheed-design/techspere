@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileEditForm
 from .models import CustomUser
 
 
@@ -35,3 +36,16 @@ def login_view(request):
 def profile_view(request, username):
     user = CustomUser.objects.get(username=username)
     return render(request, 'accounts/profile.html', {'profile_user': user})
+
+
+@login_required
+def profile_edit_view(request):
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated.")
+            return redirect('profile', username=request.user.username)
+    else:
+        form = ProfileEditForm(instance=request.user)
+    return render(request, 'accounts/profile_edit.html', {'form': form})

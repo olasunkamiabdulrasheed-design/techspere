@@ -1,8 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-# Create your models here.
-
 
 class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)
@@ -19,3 +16,9 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    @property
+    def skills_list(self):
+        if not self.skills:
+            return []
+        return [s.strip() for s in self.skills.split(',') if s.strip()]
