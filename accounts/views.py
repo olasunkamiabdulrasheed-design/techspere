@@ -27,11 +27,10 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, f"Welcome back, {user.username}!")
-            return redirect('home')
+            return redirect('dashboard')
         else:
             messages.error(request, "Invalid username or password.")
-    return render(request, 'accounts/login.html')
-
+    return redirect('dashboard')
 
 def profile_view(request, username):
     user = CustomUser.objects.get(username=username)

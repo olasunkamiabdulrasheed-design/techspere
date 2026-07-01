@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+    <div class="mb-8">
+        <p class="text-cyan-400 font-mono text-xs mb-1">// welcome back</p>
+        <h1 class="text-2xl font-bold">Hey, {{ user.username }} 👋</h1>
+        <p class="text-gray-400 text-sm mt-1">Here's what's happening on TechSphere today.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+
+        <!-- MAIN FEED -->
+        <div class="lg:col-span-2 space-y-8">
+
+            <!-- Recent Posts -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-semibold">Recent Posts</h2>
+                    <a href="{% url 'category_list' %}" class="text-xs text-blue-400 hover:underline">Browse channels &rarr;</a>
+                </div>
+                <div class="space-y-3">
+                    {% for post in recent_posts %}
+                    <a href="{% url 'post_detail' post.pk %}"
+                        class="group flex items-start gap-3 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500/60 transition">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                            {{ post.author.username|slice:":1"|upper }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium group-hover:text-blue-400 transition truncate">{{ post.title }}</p>
+                            <div class="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                                <span>#{{ post.category.slug }}</span>
+                                <span>&middot;</span>
+                                <span>{{ post.author.username }}</span>
+                                <span>&middot;</span>
+                                <span>{{ post.created_at|timesince }} ago</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p class="text-sm text-gray-500">No posts yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Projects -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-semibold">Recent Projects</h2>
+                    <a href="{% url 'project_list' %}" class="text-xs text-blue-400 hover:underline">Browse teams &rarr;</a>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    {% for project in recent_projects %}
+                    <a href="{% url 'project_detail' project.pk %}"
+                        class="group p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-500/60 transition">
+                        <p class="text-sm font-medium group-hover:text-blue-400 transition">{{ project.title }}</p>
+                        <p class="text-xs text-gray-500 mt-1 truncate">{{ project.description|truncatechars:50 }}</p>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            {% for role in project.roles_list %}
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20">{{ role }}</span>
+                            {% endfor %}
+                        </div>
+                    </a>
+                    {% empty %}
+                    <p class="text-sm text-gray-500">No projects yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="space-y-6">
+
+            <!-- My Projects -->
+            <div class="p-5 bg-white/5 rounded-2xl border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-semibold text-sm">My Projects</h2>
+                    <a href="{% url 'project_create' %}" class="text-xs text-blue-400 hover:underline">+ New</a>
+                </div>
+                {% if my_projects %}
+                <div class="space-y-2">
+                    {% for project in my_projects %}
+                    <a href="{% url 'project_detail' project.pk %}"
+                        class="block text-sm text-gray-300 hover:text-blue-400 transition truncate">
+                        {{ project.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-gray-500">You haven't posted a project yet.</p>
+                <a href="{% url 'project_create' %}" class="text-xs text-blue-400 hover:underline mt-1 inline-block">Post one &rarr;</a>
+                {% endif %}
+            </div>
+
+            <!-- My Applications -->
+            <div class="p-5 bg-white/5 rounded-2xl border border-white/10">
+                <h2 class="font-semibold text-sm mb-4">My Applications</h2>
+                {% if my_applications %}
+                <div class="space-y-2">
+                    {% for jr in my_applications %}
+                    <a href="{% url 'project_detail' jr.project.pk %}"
+                        class="flex items-center justify-between text-sm hover:text-blue-400 transition">
+                        <span class="truncate text-gray-300">{{ jr.project.title }}</span>
+                        <span class="text-xs ml-2 px-2 py-0.5 rounded-full flex-shrink-0
+                            {% if jr.status == 'accepted' %}bg-green-500/10 text-green-400 border border-green-500/20
+                            {% elif jr.status == 'rejected' %}bg-red-500/10 text-red-400 border border-red-500/20
+                            {% else %}bg-yellow-500/10 text-yellow-400 border border-yellow-500/20{% endif %}">
+                            {{ jr.status }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-xs text-gray-500">You haven't applied to any projects yet.</p>
+                <a href="{% url 'project_list' %}" class="text-xs text-blue-400 hover:underline mt-1 inline-block">Browse projects &rarr;</a>
+                {% endif %}
+            </div>
+
+            <!-- Quick Links -->
+            <div class="p-5 bg-white/5 rounded-2xl border border-white/10">
+                <h2 class="font-semibold text-sm mb-4">Quick Links</h2>
+                <div class="space-y-2 text-sm">
+                    <a href="{% url 'profile' user.username %}" class="block text-gray-300 hover:text-blue-400 transition">My Profile</a>
+                    <a href="{% url 'profile_edit' %}" class="block text-gray-300 hover:text-blue-400 transition">Edit Profile</a>
+                    <a href="{% url 'notifications' %}" class="block text-gray-300 hover:text-blue-400 transition">Notifications</a>
+                    <a href="{% url 'search' %}" class="block text-gray-300 hover:text-blue-400 transition">Search</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
