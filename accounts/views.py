@@ -30,7 +30,7 @@ def login_view(request):
             return redirect('dashboard')
         else:
             messages.error(request, "Invalid username or password.")
-    return redirect('dashboard')
+    return render(request, 'accounts/login.html')
 
 def profile_view(request, username):
     user = CustomUser.objects.get(username=username)
