@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="border-b border-white/10">
+    <div class="max-w-3xl mx-auto px-6 py-10">
+        <p class="text-cyan-400 font-mono text-xs mb-2">#messages</p>
+        <h1 class="text-2xl font-bold">Messages</h1>
+    </div>
+</div>
+
+<div class="max-w-3xl mx-auto px-6 py-8">
+    {% if convos_with_other %}
+    <div class="space-y-3">
+        {% for convo, other in convos_with_other %}
+        <a href="{% url 'conversation' convo.pk %}"
+            class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-blue-500/60 transition">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold flex-shrink-0">
+                {{ other.username|slice:":1"|upper }}
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="font-medium">{{ other.username }}</p>
+                <p class="text-sm text-gray-500 truncate">
+                    {{ convo.messages.last.content|default:"No messages yet" }}
+                </p>
+            </div>
+            <p class="text-xs text-gray-500 flex-shrink-0">{{ convo.updated_at|timesince }} ago</p>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-24">
+        <p class="text-gray-500 mb-2">No conversations yet.</p>
+        <p class="text-sm text-gray-600">Visit someone's profile and click "Message" to start a conversation.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

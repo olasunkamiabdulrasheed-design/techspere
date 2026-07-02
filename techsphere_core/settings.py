@@ -167,6 +167,7 @@ INSTALLED_APPS = [
     'core',
     'search',
     'notifications',
+    'messaging',
 ]
 
 MIDDLEWARE = [
@@ -259,5 +260,5 @@ LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com', '.pythonanywhere.com', '.up.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.up.railway.app']
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']

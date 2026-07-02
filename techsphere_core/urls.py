@@ -26,6 +26,7 @@ urlpatterns = [
     path('search/', include('search.urls')),
     path('notifications/', include('notifications.urls')),
     path('dashboard/', core_views.dashboard_view, name='dashboard'),
+    path('messages/', include('messaging.urls')),
 
 ]
 

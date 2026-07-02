@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-3xl mx-auto px-6 py-8 flex flex-col" style="height: calc(100vh - 80px);">
+
+    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+        <a href="{% url 'inbox' %}" class="text-gray-500 hover:text-blue-400">&larr;</a>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-sm">
+            {{ other.username|slice:":1"|upper }}
+        </div>
+        <div>
+            <p class="font-medium">{{ other.username }}</p>
+            <a href="{% url 'profile' other.username %}" class="text-xs text-blue-400 hover:underline">View profile</a>
+        </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto space-y-3 mb-4">
+        {% for message in messages %}
+        <div class="flex {% if message.sender == user %}justify-end{% endif %}">
+            <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm
+                {% if message.sender == user %}
+                bg-blue-600 text-white rounded-br-sm
+                {% else %}
+                bg-white/10 text-gray-200 rounded-bl-sm
+                {% endif %}">
+                <p>{{ message.content }}</p>
+                <p class="text-xs mt-1 opacity-60">{{ message.created_at|timesince }} ago</p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-sm text-gray-500 py-8">No messages yet. Say hello!</p>
+        {% endfor %}
+    </div>
+
+    <form method="post" class="flex gap-3">
+        {% csrf_token %}
+        <input type="text" name="content" placeholder="Type a message..."
+            class="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus:border-blue-500"
+            autocomplete="off">
+        <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-xl text-sm font-medium transition">
+            Send
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}
