@@ -168,6 +168,7 @@ INSTALLED_APPS = [
     'search',
     'notifications',
     'messaging',
+    'jobs',
 ]
 
 MIDDLEWARE = [

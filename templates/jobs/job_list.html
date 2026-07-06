@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Job Board — TechSphere{% endblock %}
+{% block content %}
+
+<div style="max-width: 800px; margin: 0 auto;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+    <div>
+      <h1 class="page-title">Job Board</h1>
+      <p class="page-sub">Find your next role — internships, remote, freelance, and full-time.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'job_create' %}" class="btn btn-primary">+ Post a Job</a>
+    {% endif %}
+  </div>
+
+  <!-- FILTERS -->
+  <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+    <a href="{% url 'job_list' %}" class="badge {% if not selected_type %}badge-blue{% else %}badge-blue" style="background: {% if not selected_type %}var(--accent){% else %}var(--accent-light){% endif %}; color: {% if not selected_type %}white{% else %}var(--accent-text){% endif %}; padding: 6px 14px; cursor: pointer; font-size: 12px; text-decoration: none;">All</a>
+    {% for value, label in job_types %}
+    <a href="?type={{ value }}" class="badge" style="background: {% if selected_type == value %}var(--accent){% else %}var(--accent-light){% endif %}; color: {% if selected_type == value %}white{% else %}var(--accent-text){% endif %}; padding: 6px 14px; cursor: pointer; font-size: 12px; text-decoration: none;">{{ label }}</a>
+    {% endfor %}
+  </div>
+
+  <!-- JOB LISTINGS -->
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    {% for job in jobs %}
+    <a href="{% url 'job_detail' job.pk %}" class="card card-accent" style="padding: 16px; text-decoration: none; display: block;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <div class="avatar avatar-sm" style="background: var(--accent-light); color: var(--accent-text); font-size: 11px; font-weight: 700;">{{ job.company|slice:":1"|upper }}</div>
+            <span style="font-size: 12px; font-weight: 600; color: var(--text);">{{ job.company }}</span>
+            {% if job.location %}
+            <span style="font-size: 11px; color: var(--text-3);">· {{ job.location }}</span>
+            {% endif %}
+          </div>
+          <h3 style="font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px;">{{ job.title }}</h3>
+          <p style="font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ job.description|truncatechars:100 }}</p>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0;">
+          <span class="badge {% if job.job_type == 'remote' %}badge-green{% elif job.job_type == 'internship' %}badge-purple{% elif job.job_type == 'freelance' %}badge-yellow{% else %}badge-blue{% endif %}">{{ job.get_job_type_display }}</span>
+          <span style="font-size: 11px; color: var(--text-3);">{{ job.created_at|timesince }} ago</span>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <div class="card" style="padding: 48px; text-align: center;">
+      <p style="color: var(--text-3); font-size: 13px; margin-bottom: 12px;">No jobs posted yet.</p>
+      {% if user.is_authenticated %}
+      <a href="{% url 'job_create' %}" class="btn btn-outline btn-sm">Post the first job →</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
