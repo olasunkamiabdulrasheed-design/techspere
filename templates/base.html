@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,290 +7,158 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['selector', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'] },
+                    colors: {
+                        accent: {
+                            DEFAULT: '#0a66c2',
+                            hover: '#004182',
+                            light: '#e8f0fb',
+                            dark: '#58a6ff',
+                            'dark-hover': '#79b8ff',
+                            'dark-light': '#1f3a5f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* ── TOKENS ── */
-        :root { --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; --radius: 8px; --transition: all 0.15s ease; }
-
-        [data-theme="light"] {
-            --bg:            #f3f2ef;
-            --surface:       #ffffff;
-            --border:        #e0ddd8;
-            --border-hover:  #c8c4be;
-            --text:          #191919;
-            --text-2:        #666666;
-            --text-3:        #999999;
-            --accent:        #0a66c2;
-            --accent-hover:  #004182;
-            --accent-light:  #e8f0fb;
-            --accent-text:   #0a66c2;
-            --green:         #057642;
-            --green-bg:      #e8f5ee;
-            --red:           #cc1016;
-            --red-bg:        #fdecea;
-            --yellow:        #b86800;
-            --yellow-bg:     #fff7e6;
-            --purple:        #7c3aed;
-            --purple-bg:     #f0e6ff;
-            --topbar:        rgba(255,255,255,0.95);
-        }
-
-        [data-theme="dark"] {
-            --bg:            #1b1f23;
-            --surface:       #24292e;
-            --border:        #30363d;
-            --border-hover:  #484f58;
-            --text:          #e6edf3;
-            --text-2:        #8b949e;
-            --text-3:        #484f58;
-            --accent:        #58a6ff;
-            --accent-hover:  #79b8ff;
-            --accent-light:  #1f3a5f;
-            --accent-text:   #58a6ff;
-            --green:         #3fb950;
-            --green-bg:      #1a3a27;
-            --red:           #f85149;
-            --red-bg:        #3a1a1a;
-            --yellow:        #d29922;
-            --yellow-bg:     #3a2d1a;
-            --purple:        #a78bfa;
-            --purple-bg:     #2d1f4a;
-            --topbar:        rgba(27,31,35,0.95);
-        }
-
-        /* ── RESET ── */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; transition: background 0.2s, color 0.2s; -webkit-font-smoothing: antialiased; }
-        h1,h2,h3,h4,h5,h6 { font-weight: 600; line-height: 1.3; color: var(--text); }
-        h1 { font-size: 1.5rem; }
-        h2 { font-size: 1.15rem; }
-        h3 { font-size: 1rem; }
-        p { color: var(--text-2); }
-        a { color: inherit; text-decoration: none; transition: var(--transition); }
-        input, textarea, select, button { font-family: var(--font); }
-
-        /* ── TOPBAR ── */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-            height: 52px; background: var(--topbar);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 20px; gap: 12px;
-            transition: background 0.2s;
-        }
-        .topbar-logo { font-size: 1.1rem; font-weight: 700; color: var(--accent) !important; letter-spacing: -0.03em; flex-shrink: 0; min-width: 180px; }
-        .topbar-search { flex: 1; max-width: 300px; }
-        .topbar-search input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px; font-size: 13px; color: var(--text); outline: none; transition: var(--transition); }
-        .topbar-search input:focus { border-color: var(--accent); background: var(--surface); }
-        .topbar-search input::placeholder { color: var(--text-3); }
-        .topbar-right { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-        .topbar-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-2); cursor: pointer; transition: var(--transition); position: relative; text-decoration: none !important; }
-        .topbar-icon:hover { background: var(--bg); color: var(--text); }
-        .topbar-badge { position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; font-size: 9px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; }
-        .topbar-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--accent-text); border: 1.5px solid var(--border); flex-shrink: 0; text-decoration: none !important; transition: var(--transition); }
-        .topbar-avatar:hover { border-color: var(--accent); }
-        .topbar-sep { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; margin: 0 4px; }
-        .logout-form { display: inline; }
-        .logout-btn { font-size: 13px; font-weight: 500; color: var(--text-2); padding: 6px 10px; border-radius: 6px; border: none; background: transparent; cursor: pointer; transition: var(--transition); }
-        .logout-btn:hover { background: var(--bg); color: var(--text); }
-        /* toggle */
-        .toggle-wrap { display: flex; align-items: center; gap: 5px; margin-left: 4px; }
-        .toggle-icon { color: var(--text-3); }
-        .toggle-track { width: 34px; height: 18px; background: var(--border); border-radius: 9px; position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
-        [data-theme="dark"] .toggle-track { background: var(--accent); }
-        .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: white; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-        [data-theme="dark"] .toggle-thumb { transform: translateX(16px); }
-
-        /* ── LAYOUT ── */
-        .layout { display: flex; padding-top: 52px; min-height: 100vh; }
-
-        /* ── SIDEBAR ── */
-        .sidebar { width: 220px; flex-shrink: 0; position: fixed; top: 52px; left: 0; bottom: 0; background: var(--surface); border-right: 1px solid var(--border); padding: 12px 8px; overflow-y: auto; z-index: 100; transition: background 0.2s; }
-        .sidebar-profile { display: flex; align-items: center; gap: 10px; padding: 10px 8px 14px; border-bottom: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; text-decoration: none !important; }
-        .sidebar-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-light); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--accent-text); flex-shrink: 0; transition: var(--transition); }
-        .sidebar-profile:hover .sidebar-avatar { border-color: var(--accent); }
-        .sidebar-name { font-size: 13px; font-weight: 600; color: var(--text); }
-        .sidebar-role { font-size: 11px; color: var(--text-3); margin-top: 1px; }
-        .nav-section { font-size: 10px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 8px 4px; }
-        .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: var(--transition); color: var(--text-2); font-size: 13px; font-weight: 500; text-decoration: none !important; position: relative; }
-        .nav-item:hover { background: var(--bg); color: var(--text); }
-        .nav-item.active { background: var(--accent-light); color: var(--accent-text); }
-        .nav-item.active svg { stroke: var(--accent-text); }
-        .nav-item.dim { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-        .nav-count { margin-left: auto; min-width: 18px; height: 18px; background: var(--accent); border-radius: 9px; font-size: 10px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
-
-        /* ── MAIN ── */
-        .main { flex: 1; margin-left: 220px; padding: 24px; min-width: 0; max-width: calc(100% - 220px); }
-
-        /* ── COMPONENTS ── */
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: var(--transition); }
-        .card:hover { border-color: var(--border-hover); }
-        .card-accent:hover { border-color: var(--accent); }
-
-        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: var(--transition); text-decoration: none !important; font-family: var(--font); white-space: nowrap; }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: var(--accent-hover); opacity: 1; }
-        .btn-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
-        .btn-outline:hover { background: var(--accent-light); opacity: 1; }
-        .btn-ghost { background: transparent; color: var(--text-2); border: 1.5px solid var(--border); }
-        .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); opacity: 1; }
-        .btn-sm { padding: 5px 12px; font-size: 12px; }
-
-        .form-group { margin-bottom: 16px; }
-        .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-2); margin-bottom: 5px; }
-        .form-input, .form-textarea, .form-select { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; font-size: 14px; color: var(--text); outline: none; transition: var(--transition); font-family: var(--font); }
-        .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--accent); }
-        .form-input::placeholder, .form-textarea::placeholder { color: var(--text-3); }
-        .form-error { font-size: 12px; color: var(--red); margin-top: 4px; }
-
-        .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
-        .badge-blue   { background: var(--accent-light); color: var(--accent-text); }
-        .badge-green  { background: var(--green-bg);     color: var(--green);       }
-        .badge-red    { background: var(--red-bg);       color: var(--red);         }
-        .badge-yellow { background: var(--yellow-bg);    color: var(--yellow);      }
-        .badge-purple { background: var(--purple-bg);    color: var(--purple);      }
-
-        .alert { padding: 12px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .alert-success { background: var(--green-bg);  color: var(--green); border: 1px solid var(--green); }
-        .alert-error   { background: var(--red-bg);    color: var(--red);   border: 1px solid var(--red);   }
-        .alert-info    { background: var(--accent-light); color: var(--accent-text); border: 1px solid var(--accent); }
-
-        .avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; background: var(--accent-light); color: var(--accent-text); }
-        .avatar-sm { width: 28px; height: 28px; font-size: 11px; }
-        .avatar-md { width: 38px; height: 38px; font-size: 14px; }
-        .avatar-lg { width: 48px; height: 48px; font-size: 17px; }
-        .avatar-xl { width: 64px; height: 64px; font-size: 22px; }
-
-        .page-header { margin-bottom: 20px; }
-        .page-title { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-        .page-sub { font-size: 13px; color: var(--text-3); }
-
-        hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
+        body { font-size: 14px; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
-
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; max-width: 100%; padding: 16px; }
-            .topbar-logo { min-width: auto; }
-        }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb, [data-theme="dark"] ::-webkit-scrollbar-thumb { background: #30363d; }
     </style>
 </head>
-<body>
+<body class="font-sans bg-[#f3f2ef] dark:bg-[#1b1f23] text-[#191919] dark:text-[#e6edf3] min-h-screen antialiased transition-colors duration-200">
 
 <!-- TOPBAR -->
-<header class="topbar">
-    <a href="/" class="topbar-logo">TechSphere</a>
+<header class="fixed top-0 left-0 right-0 z-[200] h-[52px] bg-white/95 dark:bg-[#24292e]/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 flex items-center px-5 gap-3">
+    <a href="/" class="text-lg font-bold text-accent dark:text-accent-dark tracking-tight min-w-[180px] flex-shrink-0">TechSphere</a>
 
-    <div class="topbar-search">
+    <div class="flex-1 max-w-[300px]">
         <form method="get" action="{% url 'search' %}">
-            <input type="text" name="q" placeholder="Search TechSphere..." value="{{ request.GET.q }}">
+            <input type="text" name="q" placeholder="Search TechSphere..." value="{{ request.GET.q }}"
+                class="w-full bg-[#f3f2ef] dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-md px-3.5 py-1.5 text-sm text-inherit outline-none transition-colors focus:border-accent dark:focus:border-accent-dark focus:bg-white dark:focus:bg-[#24292e] placeholder-gray-400 dark:placeholder-gray-500">
         </form>
     </div>
 
-    <div class="topbar-right">
+    <div class="flex items-center gap-1 ml-auto">
         {% if user.is_authenticated %}
-        <a href="{% url 'notifications' %}" class="topbar-icon">
+        <a href="{% url 'notifications' %}" class="relative w-9 h-9 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            {% if unread_notifications > 0 %}<span class="topbar-badge">{{ unread_notifications }}</span>{% endif %}
+            {% if unread_notifications > 0 %}
+            <span class="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-accent dark:bg-accent-dark rounded-full text-[9px] font-bold text-white flex items-center justify-center">{{ unread_notifications }}</span>
+            {% endif %}
         </a>
-        <a href="{% url 'inbox' %}" class="topbar-icon">
+        <a href="{% url 'inbox' %}" class="w-9 h-9 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </a>
-        <div class="topbar-sep"></div>
-        <a href="{% url 'profile' user.username %}" class="topbar-avatar">{{ user.username|slice:":1"|upper }}</a>
-        <form method="post" action="{% url 'logout' %}" class="logout-form">
+        <div class="w-px h-[22px] bg-gray-200 dark:bg-gray-700 mx-1"></div>
+        <a href="{% url 'profile' user.username %}" class="w-[34px] h-[34px] rounded-full bg-accent-light dark:bg-accent-dark-light flex items-center justify-center text-sm font-semibold text-accent dark:text-accent-dark border-[1.5px] border-gray-200 dark:border-gray-700 hover:border-accent dark:hover:border-accent-dark flex-shrink-0 transition-colors">{{ user.username|slice:":1"|upper }}</a>
+        <form method="post" action="{% url 'logout' %}" class="inline">
             {% csrf_token %}
-            <button type="submit" class="logout-btn">Log out</button>
+            <button type="submit" class="text-sm font-medium text-gray-500 dark:text-gray-400 px-2.5 py-1.5 rounded-md hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white transition-colors">Log out</button>
         </form>
         {% else %}
-        <a href="{% url 'login' %}" class="logout-btn">Log in</a>
-        <a href="{% url 'signup' %}" class="btn btn-primary btn-sm">Sign up</a>
+        <a href="{% url 'login' %}" class="text-sm font-medium text-gray-500 dark:text-gray-400 px-2.5 py-1.5 rounded-md hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white transition-colors">Log in</a>
+        <a href="{% url 'signup' %}" class="bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white px-4 py-1.5 rounded-full text-xs font-semibold transition-colors">Sign up</a>
         {% endif %}
 
-        <div class="topbar-sep"></div>
-        <div class="toggle-wrap">
-            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            <div class="toggle-track" onclick="toggleTheme()" role="button" aria-label="Toggle theme"><div class="toggle-thumb"></div></div>
-            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <div class="w-px h-[22px] bg-gray-200 dark:bg-gray-700 mx-1"></div>
+        <div class="flex items-center gap-1.5 ml-1">
+            <svg class="text-gray-400" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <div onclick="toggleTheme()" role="button" aria-label="Toggle theme" class="w-[34px] h-[18px] rounded-full relative cursor-pointer flex-shrink-0 transition-colors bg-gray-200 dark:bg-accent-dark">
+                <div id="toggle-thumb" class="absolute top-0.5 left-0.5 w-[14px] h-[14px] rounded-full bg-white shadow transition-transform dark:translate-x-4"></div>
+            </div>
+            <svg class="text-gray-400" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </div>
     </div>
 </header>
 
-<div class="layout">
+<div class="flex pt-[52px] min-h-screen">
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="hidden md:block w-[220px] flex-shrink-0 fixed top-[52px] left-0 bottom-0 bg-white dark:bg-[#24292e] border-r border-gray-200 dark:border-gray-700 p-2 overflow-y-auto z-[100] transition-colors">
         {% if user.is_authenticated %}
-        <a href="{% url 'profile' user.username %}" class="sidebar-profile">
-            <div class="sidebar-avatar">{{ user.username|slice:":1"|upper }}</div>
+        <a href="{% url 'profile' user.username %}" class="flex items-center gap-2.5 px-2 pt-2.5 pb-3.5 border-b border-gray-200 dark:border-gray-700 mb-2">
+            <div class="w-10 h-10 rounded-full bg-accent-light dark:bg-accent-dark-light border-[1.5px] border-gray-200 dark:border-gray-700 flex items-center justify-center text-sm font-semibold text-accent dark:text-accent-dark flex-shrink-0">{{ user.username|slice:":1"|upper }}</div>
             <div>
-                <div class="sidebar-name">{{ user.username }}</div>
-                <div class="sidebar-role">{{ user.get_experience_level_display|default:"Member" }}</div>
+                <div class="text-[13px] font-semibold text-inherit">{{ user.username }}</div>
+                <div class="text-[11px] text-gray-400 mt-0.5">{{ user.get_experience_level_display|default:"Member" }}</div>
             </div>
         </a>
         {% endif %}
 
-        <div class="nav-section">Main</div>
-        <a href="/" class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+        <div class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider px-2 pt-2.5 pb-1">Main</div>
+        <a href="/" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'home' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Home
         </a>
         {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <a href="{% url 'dashboard' %}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'dashboard' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             Dashboard
         </a>
         {% endif %}
 
-        <div class="nav-section">Community</div>
-        <a href="{% url 'category_list' %}" class="nav-item {% if request.resolver_match.url_name == 'category_list' or request.resolver_match.url_name == 'post_list' or request.resolver_match.url_name == 'post_detail' %}active{% endif %}">
+        <div class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider px-2 pt-2.5 pb-1">Community</div>
+        <a href="{% url 'category_list' %}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'category_list' or request.resolver_match.url_name == 'post_list' or request.resolver_match.url_name == 'post_detail' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
             Channels
         </a>
-        <a href="{% url 'project_list' %}" class="nav-item {% if request.resolver_match.url_name == 'project_list' or request.resolver_match.url_name == 'project_detail' %}active{% endif %}">
+        <a href="{% url 'project_list' %}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'project_list' or request.resolver_match.url_name == 'project_detail' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             Teams
         </a>
         {% if user.is_authenticated %}
-        <a href="{% url 'inbox' %}" class="nav-item {% if request.resolver_match.url_name == 'inbox' or request.resolver_match.url_name == 'conversation' %}active{% endif %}">
+        <a href="{% url 'inbox' %}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'inbox' or request.resolver_match.url_name == 'conversation' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             Messages
         </a>
-        <a href="{% url 'notifications' %}" class="nav-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %}">
+        <a href="{% url 'notifications' %}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium transition-colors {% if request.resolver_match.url_name == 'notifications' %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark{% else %}text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] hover:text-gray-900 dark:hover:text-white{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             Notifications
-            {% if unread_notifications > 0 %}<span class="nav-count">{{ unread_notifications }}</span>{% endif %}
+            {% if unread_notifications > 0 %}<span class="ml-auto min-w-[18px] h-[18px] bg-accent dark:bg-accent-dark rounded-full text-[10px] font-bold text-white flex items-center justify-center px-1">{{ unread_notifications }}</span>{% endif %}
         </a>
         {% endif %}
 
-        <div class="nav-section">Coming Soon</div>
-        <span class="nav-item dim">
+        <div class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider px-2 pt-2.5 pb-1">Coming Soon</div>
+        <span class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400 opacity-40 cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             Job Board
         </span>
-        <span class="nav-item dim">
+        <span class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400 opacity-40 cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Events
         </span>
-        <span class="nav-item dim">
+        <span class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400 opacity-40 cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Courses
         </span>
-        <span class="nav-item dim">
+        <span class="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400 opacity-40 cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
             Leaderboard
         </span>
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="main">
+    <main class="flex-1 md:ml-[220px] p-4 md:p-6 min-w-0">
         {% if messages %}
-        <div style="margin-bottom: 16px;">
+        <div class="mb-4 space-y-2">
             {% for message in messages %}
-            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-error{% else %}alert-info{% endif %}">{{ message }}</div>
+            <div class="px-4 py-3 rounded-md text-sm font-medium flex items-center gap-2 border
+                {% if message.tags == 'success' %}bg-[#e8f5ee] dark:bg-[#1a3a27] text-[#057642] dark:text-[#3fb950] border-[#057642] dark:border-[#3fb950]
+                {% elif message.tags == 'error' %}bg-[#fdecea] dark:bg-[#3a1a1a] text-[#cc1016] dark:text-[#f85149] border-[#cc1016] dark:border-[#f85149]
+                {% else %}bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark border-accent dark:border-accent-dark{% endif %}">
+                {{ message }}
+            </div>
             {% endfor %}
         </div>
         {% endif %}
