@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import SignUpForm, ProfileEditForm
 from .models import CustomUser
+from gamification.utils import award_xp
+
 
 
 def signup_view(request):
@@ -12,6 +14,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            award_xp(user, 'signup')
             messages.success(request, f"Welcome to TechSphere, {user.username}! Your account was created successfully.")
             return redirect('profile', username=user.username)
     else:
