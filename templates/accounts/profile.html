@@ -14,8 +14,13 @@
                 </div>
                 {% endif %}
                 <div>
-                    <h1 class="text-2xl font-bold">{{ profile_user.username }}</h1>
-                    <p class="text-sm text-gray-500">{{ profile_user.get_experience_level_display }}</p>
+                    <h1 style="font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">{{ profile_user.username }}</h1>
+                    <p style="font-size: 13px; color: var(--text-3);">{{ profile_user.get_experience_level_display }}</p>
+                {% if user_xp %}
+                    <span class="badge {{ user_xp.rank_color }}" style="margin-top: 4px; display: inline-block;">{{ user_xp.rank }} · {{ user_xp.total_xp }} XP</span>
+                {% endif %}
+
+                    
                 </div>
             </div>
 

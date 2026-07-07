@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import SignUpForm, ProfileEditForm
 from .models import CustomUser
 from gamification.utils import award_xp
+from gamification.models import UserXP
 
 
 
@@ -35,9 +36,15 @@ def login_view(request):
             messages.error(request, "Invalid username or password.")
     return render(request, 'accounts/login.html')
 
+
+
 def profile_view(request, username):
     user = CustomUser.objects.get(username=username)
-    return render(request, 'accounts/profile.html', {'profile_user': user})
+    user_xp, _ = UserXP.objects.get_or_create(user=user)
+    return render(request, 'accounts/profile.html', {
+        'profile_user': user,
+        'user_xp': user_xp,
+    })
 
 
 @login_required
