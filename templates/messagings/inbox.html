@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Messages — TechSphere{% endblock %}
+{% block content %}
+
+<div style="max-width: 700px; margin: 0 auto;">
+  <div style="margin-bottom: 20px;">
+    <h1 class="page-title">Messages</h1>
+    <p class="page-sub">Your direct conversations.</p>
+  </div>
+
+  <div class="card" style="overflow: hidden;">
+    {% if convos_with_other %}
+    {% for convo, other in convos_with_other %}
+    <a href="{% url 'conversation' convo.pk %}" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
+      <div class="avatar avatar-md">{{ other.username|slice:":1"|upper }}</div>
+      <div style="flex: 1; min-width: 0;">
+        <p style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px;">{{ other.username }}</p>
+        <p style="font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          {{ convo.messages.last.content|default:"No messages yet" }}
+        </p>
+      </div>
+      <p style="font-size: 11px; color: var(--text-3); flex-shrink: 0;">{{ convo.updated_at|timesince }} ago</p>
+    </a>
+    {% endfor %}
+    {% else %}
+    <div style="padding: 48px; text-align: center;">
+      <p style="font-size: 13px; color: var(--text-3); margin-bottom: 8px;">No conversations yet.</p>
+      <p style="font-size: 12px; color: var(--text-3);">Visit someone's profile and click "Message" to start a conversation.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

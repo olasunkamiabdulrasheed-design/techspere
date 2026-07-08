@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Events — TechSphere{% endblock %}
+{% block content %}
+
+<div style="max-width: 800px; margin: 0 auto;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+    <div>
+      <h1 class="page-title">Events & Hackathons</h1>
+      <p class="page-sub">Join meetups, workshops, webinars and hackathons.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'event_create' %}" class="btn btn-primary">+ Create Event</a>
+    {% endif %}
+  </div>
+
+  <!-- UPCOMING -->
+  <h2 style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Upcoming</h2>
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px;">
+    {% for event in upcoming %}
+    <a href="{% url 'event_detail' event.pk %}" class="card card-accent" style="padding: 16px; text-decoration: none; display: block;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            {% if event.event_type == 'hackathon' %}
+            <span class="badge badge-purple">{{ event.get_event_type_display }}</span>
+            {% elif event.event_type == 'workshop' %}
+            <span class="badge badge-blue">{{ event.get_event_type_display }}</span>
+            {% elif event.event_type == 'webinar' %}
+            <span class="badge badge-green">{{ event.get_event_type_display }}</span>
+            {% else %}
+            <span class="badge badge-yellow">{{ event.get_event_type_display }}</span>
+            {% endif %}
+            {% if event.prize %}
+            <span style="font-size: 11px; color: var(--yellow); font-weight: 500;">🏆 {{ event.prize }}</span>
+            {% endif %}
+          </div>
+          <h3 style="font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px;">{{ event.title }}</h3>
+          <p style="font-size: 12px; color: var(--text-3); margin-bottom: 4px;">{{ event.description|truncatechars:100 }}</p>
+          <div style="display: flex; gap: 12px; font-size: 11px; color: var(--text-3);">
+            {% if event.location %}<span>📍 {{ event.location }}</span>{% endif %}
+            <span>👥 {{ event.participant_count }} registered{% if event.max_participants %} / {{ event.max_participants }} max{% endif %}</span>
+          </div>
+        </div>
+        <div style="text-align: right; flex-shrink: 0;">
+          <p style="font-size: 13px; font-weight: 600; color: var(--accent);">{{ event.event_date|date:"M d" }}</p>
+          <p style="font-size: 11px; color: var(--text-3);">{{ event.event_date|date:"Y" }}</p>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <div class="card" style="padding: 32px; text-align: center;">
+      <p style="font-size: 13px; color: var(--text-3); margin-bottom: 12px;">No upcoming events yet.</p>
+      {% if user.is_authenticated %}
+      <a href="{% url 'event_create' %}" class="btn btn-outline btn-sm">Create the first event →</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- PAST -->
+  {% if past %}
+  <h2 style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Past Events</h2>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    {% for event in past %}
+    <a href="{% url 'event_detail' event.pk %}" class="card" style="padding: 14px 16px; text-decoration: none; display: block; opacity: 0.6;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h3 style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.title }}</h3>
+          <p style="font-size: 11px; color: var(--text-3);">{{ event.event_date|date:"M d, Y" }} · {{ event.participant_count }} attended</p>
+        </div>
+        <span class="badge badge-blue" style="font-size: 10px;">{{ event.get_event_type_display }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

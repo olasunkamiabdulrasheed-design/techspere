@@ -28,7 +28,7 @@ urlpatterns = [
     path('dashboard/', core_views.dashboard_view, name='dashboard'),
     path('messages/', include('messaging.urls')),
     path('jobs/', include('jobs.urls')),
-
+    path('events/', include('events.urls')),
 ]
 
 

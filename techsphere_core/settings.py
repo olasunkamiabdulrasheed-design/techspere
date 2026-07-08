@@ -170,6 +170,7 @@ INSTALLED_APPS = [
     'messaging',
     'jobs',
     'gamification',
+    'events',
 ]
 
 MIDDLEWARE = [

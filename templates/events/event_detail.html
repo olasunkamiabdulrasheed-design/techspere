@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} — TechSphere{% endblock %}
+{% block content %}
+
+<div style="max-width: 700px; margin: 0 auto;">
+  <a href="{% url 'event_list' %}" style="font-size: 12px; color: var(--text-3); text-decoration: none; display: inline-block; margin-bottom: 16px;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-3)'">← Back to Events</a>
+
+  <div class="card" style="padding: 24px; margin-bottom: 16px;">
+    <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; gap: 12px;">
+      <div>
+        {% if event.event_type == 'hackathon' %}
+        <span class="badge badge-purple" style="margin-bottom: 8px; display: inline-block;">{{ event.get_event_type_display }}</span>
+        {% elif event.event_type == 'workshop' %}
+        <span class="badge badge-blue" style="margin-bottom: 8px; display: inline-block;">{{ event.get_event_type_display }}</span>
+        {% elif event.event_type == 'webinar' %}
+        <span class="badge badge-green" style="margin-bottom: 8px; display: inline-block;">{{ event.get_event_type_display }}</span>
+        {% else %}
+        <span class="badge badge-yellow" style="margin-bottom: 8px; display: inline-block;">{{ event.get_event_type_display }}</span>
+        {% endif %}
+        <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">{{ event.title }}</h1>
+        <p style="font-size: 13px; color: var(--text-3);">Organized by {{ event.organizer.username }}</p>
+      </div>
+    </div>
+
+    <!-- EVENT META -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+      <div style="background: var(--bg); border-radius: 8px; padding: 12px;">
+        <p style="font-size: 11px; color: var(--text-3); margin-bottom: 3px;">Date & Time</p>
+        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.event_date|date:"M d, Y · g:i A" }}</p>
+      </div>
+      {% if event.location %}
+      <div style="background: var(--bg); border-radius: 8px; padding: 12px;">
+        <p style="font-size: 11px; color: var(--text-3); margin-bottom: 3px;">Location</p>
+        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.location }}</p>
+      </div>
+      {% endif %}
+      <div style="background: var(--bg); border-radius: 8px; padding: 12px;">
+        <p style="font-size: 11px; color: var(--text-3); margin-bottom: 3px;">Participants</p>
+        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.participant_count }}{% if event.max_participants %} / {{ event.max_participants }}{% endif %} registered</p>
+      </div>
+      {% if event.prize %}
+      <div style="background: var(--bg); border-radius: 8px; padding: 12px;">
+        <p style="font-size: 11px; color: var(--text-3); margin-bottom: 3px;">Prize</p>
+        <p style="font-size: 13px; font-weight: 600; color: var(--yellow);">🏆 {{ event.prize }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <hr>
+
+    <div style="margin: 16px 0;">
+      <p style="font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">About this Event</p>
+      <p style="font-size: 14px; color: var(--text-2); line-height: 1.7; white-space: pre-line;">{{ event.description }}</p>
+    </div>
+
+    <hr>
+
+    <!-- REGISTER -->
+    <div style="margin-top: 16px; display: flex; align-items: center; justify-content: space-between;">
+      <p style="font-size: 12px; color: var(--text-3);">
+        {% if event.registration_deadline %}Registration closes {{ event.registration_deadline|date:"M d, Y" }}{% endif %}
+      </p>
+      {% if user.is_authenticated %}
+        {% if is_registered %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="badge badge-green" style="padding: 8px 14px;">✓ You're registered</span>
+          <a href="{% url 'event_unregister' event.pk %}" style="font-size: 12px; color: var(--red); text-decoration: none;">Cancel</a>
+        </div>
+        {% elif event.is_full %}
+        <span class="badge badge-red" style="padding: 8px 14px;">Event is full</span>
+        {% else %}
+        <a href="{% url 'event_register' event.pk %}" class="btn btn-primary">Register Now</a>
+        {% endif %}
+      {% else %}
+      <a href="{% url 'login' %}" class="btn btn-outline">Log in to Register</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
