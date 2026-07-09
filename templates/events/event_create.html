@@ -1,62 +1,57 @@
 {% extends 'base.html' %}
 {% block title %}Create Event — TechSphere{% endblock %}
 {% block content %}
-
-<div style="max-width: 600px; margin: 0 auto;">
-  <a href="{% url 'event_list' %}" style="font-size: 12px; color: var(--text-3); text-decoration: none; display: inline-block; margin-bottom: 16px;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-3)'">← Back to Events</a>
-
-  <div class="card" style="padding: 24px;">
-    <h1 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">Create an Event</h1>
-    <p style="font-size: 13px; color: var(--text-3); margin-bottom: 20px;">Host a hackathon, workshop, webinar or meetup for the community.</p>
-
+<div style="max-width: 620px; margin: 0 auto;">
+  <a href="{% url 'event_list' %}" style="font-size: 12px; color: var(--text-3); text-decoration: none; display: inline-block; margin-bottom: 20px;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-3)'">← Back to Events</a>
+  <div class="card" style="padding: 28px;">
+    <h1 style="font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">Create an Event</h1>
+    <p style="font-size: 13px; color: var(--text-3); margin-bottom: 24px;">Host a hackathon, workshop, webinar or meetup for the TechSphere community.</p>
     <form method="post">
       {% csrf_token %}
-
       <div class="form-group">
-        <label class="form-label">Event Title</label>
+        <label class="form-label">Event Title *</label>
         <input type="text" name="title" class="form-input" placeholder="e.g. TechSphere Monthly Hackathon" required>
       </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
         <div class="form-group">
-          <label class="form-label">Event Type</label>
+          <label class="form-label">Event Type *</label>
           <select name="event_type" class="form-select">
-            <option value="hackathon">Hackathon</option>
-            <option value="workshop">Workshop</option>
-            <option value="webinar">Webinar</option>
-            <option value="meetup">Meetup</option>
-            <option value="competition">Competition</option>
+            <option value="hackathon">🚀 Hackathon</option>
+            <option value="workshop">🛠 Workshop</option>
+            <option value="webinar">🎥 Webinar</option>
+            <option value="meetup">📍 Meetup</option>
+            <option value="competition">🏆 Competition</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Date & Time</label>
+          <label class="form-label">Date & Time *</label>
           <input type="datetime-local" name="event_date" class="form-input" required>
         </div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Location</label>
-        <input type="text" name="location" class="form-input" placeholder="e.g. Lagos, Nigeria or Online">
+        <input type="text" name="location" class="form-input" placeholder="e.g. Lagos, Nigeria or Online (Zoom)">
       </div>
-
       <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea name="description" class="form-textarea" rows="5" placeholder="What's this event about? What will participants learn or build?" required style="resize: vertical;"></textarea>
+        <label class="form-label">Description *</label>
+        <textarea name="description" class="form-textarea" rows="6" placeholder="What's this event about? What will participants learn, build, or win?" required style="resize: vertical;"></textarea>
       </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
         <div class="form-group">
           <label class="form-label">Prize (optional)</label>
           <input type="text" name="prize" class="form-input" placeholder="e.g. $500 cash prize">
         </div>
         <div class="form-group">
-          <label class="form-label">Max Participants (optional)</label>
-          <input type="number" name="max_participants" class="form-input" placeholder="Leave blank for unlimited">
+          <label class="form-label">Max Participants</label>
+          <input type="number" name="max_participants" class="form-input" placeholder="Leave blank = unlimited" min="1">
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary">Create Event</button>
+      <div style="display: flex; gap: 10px; margin-top: 8px;">
+        <button type="submit" class="btn btn-primary">Create Event</button>
+        <a href="{% url 'event_list' %}" class="btn btn-ghost">Cancel</a>
+      </div>
     </form>
   </div>
 </div>
+<style>select option { background: var(--surface); }</style>
 {% endblock %}
