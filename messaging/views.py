@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -27,8 +24,8 @@ def conversation_view(request, pk):
     if request.user not in conversation.participants.all():
         return redirect('inbox')
 
-    messages = conversation.messages.all()
-    messages.filter(is_read=False).exclude(sender=request.user).update(is_read=True)
+    chat_messages = conversation.messages.all()
+    chat_messages.filter(is_read=False).exclude(sender=request.user).update(is_read=True)
 
     if request.method == 'POST':
         content = request.POST.get('content')
@@ -53,7 +50,7 @@ def conversation_view(request, pk):
     other = conversation.get_other_participant(request.user)
     return render(request, 'messaging/conversation.html', {
         'conversation': conversation,
-        'messages': messages,
+        'chat_messages': chat_messages,
         'other': other,
     })
 
@@ -76,4 +73,3 @@ def start_conversation(request, username):
         conversation.participants.add(request.user, other)
 
     return redirect('conversation', pk=conversation.pk)
-
