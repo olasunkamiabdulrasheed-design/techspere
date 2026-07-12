@@ -15,7 +15,7 @@
     </div>
 
     <div class="flex-1 overflow-y-auto space-y-3 mb-4">
-        {% for message in messages %}
+        {% for message in chat_messages %}
         <div class="flex {% if message.sender == user %}justify-end{% endif %}">
             <div class="max-w-xs px-4 py-2.5 rounded-2xl text-sm
                 {% if message.sender == user %}
