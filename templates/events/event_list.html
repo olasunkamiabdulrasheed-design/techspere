@@ -1,57 +1,66 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% block title %}Events - TechSphere{% endblock %}
 {% block content %}
-<div style="max-width: 720px; margin: 0 auto;">
+<div class="max-w-4xl mx-auto px-6 py-8">
 
-  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
     <div>
-      <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--text);">Events & Hackathons</h1>
-      <p style="font-size: 13px; color: var(--text-3);">Workshops, meetups, hackathons and more</p>
+      <h1 class="text-xl font-bold text-gray-900 dark:text-white">Events & Hackathons</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Meetups, workshops, webinars and hackathons from the community.</p>
     </div>
     {% if user.is_authenticated %}
-    <a href="{% url 'event_create' %}" class="btn btn-primary btn-sm">+ Create Event</a>
+    <a href="{% url 'event_create' %}" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">
+      + Create Event
+    </a>
     {% endif %}
   </div>
 
-  <p style="font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Upcoming</p>
-  <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px;">
+  {% if upcoming %}
+  <p class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3">Upcoming Events</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
     {% for event in upcoming %}
-    <a href="{% url 'event_detail' event.pk %}" class="card" style="padding: 16px; display: block; text-decoration: none;">
-      <div style="display: flex; justify-content: space-between; align-items: start; gap: 12px;">
-        <div>
-          <span class="badge badge-blue">{{ event.get_event_type_display }}</span>
-          <h3 style="font-size: 15px; font-weight: 600; color: var(--text); margin-top: 8px;">{{ event.title }}</h3>
-          <p style="font-size: 12px; color: var(--text-3); margin-top: 4px;">
-            {{ event.event_date|date:"M d, Y — g:i A" }} · {{ event.location|default:"Online" }}
-          </p>
-        </div>
-        {% if event.prize %}
-        <span class="badge badge-yellow" style="flex-shrink: 0;">{{ event.prize }}</span>
-        {% endif %}
+    <a href="{% url 'event_detail' event.pk %}" class="bg-white dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-accent dark:hover:border-accent-dark transition-colors flex flex-col gap-2.5">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark">{{ event.get_event_type_display }}</span>
+        <span class="text-xs font-bold text-accent dark:text-accent-dark">{{ event.event_date|date:"M d" }}</span>
       </div>
-      <p style="font-size: 12px; color: var(--text-3); margin-top: 8px;">
-        {{ event.participant_count }} registered{% if event.max_participants %} / {{ event.max_participants }}{% endif %}
-      </p>
+      <h3 class="text-sm font-bold text-gray-900 dark:text-white leading-snug">{{ event.title }}</h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed flex-1">{{ event.description|truncatechars:80 }}</p>
+      <div class="border-t border-gray-100 dark:border-gray-800 pt-2.5 flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <div class="w-5 h-5 rounded-full bg-accent-light dark:bg-accent-dark-light flex items-center justify-center text-[10px] font-semibold text-accent dark:text-accent-dark">{{ event.organizer.username|slice:":1"|upper }}</div>
+          <span class="text-xs text-gray-400 dark:text-gray-500">{{ event.organizer.username }}</span>
+        </div>
+        <div class="flex items-center gap-2.5">
+          {% if event.prize %}<span class="text-xs text-yellow-600 dark:text-yellow-400 font-medium">Prize</span>{% endif %}
+          <span class="text-xs text-gray-400 dark:text-gray-500">{{ event.participant_count }} going</span>
+        </div>
+      </div>
     </a>
-    {% empty %}
-    <div class="card" style="padding: 32px; text-align: center;">
-      <p style="font-size: 13px; color: var(--text-3);">No upcoming events yet. Be the first to create one!</p>
-    </div>
     {% endfor %}
   </div>
+  {% else %}
+  <div class="bg-white dark:bg-[#1b1f23] border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-12 text-center mb-8">
+    <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">No upcoming events yet</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Be the first to host something for the community.</p>
+    {% if user.is_authenticated %}<a href="{% url 'event_create' %}" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">Create an Event</a>{% endif %}
+  </div>
+  {% endif %}
 
-  <p style="font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Past</p>
-  <div style="display: flex; flex-direction: column; gap: 10px;">
+  {% if past %}
+  <p class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-3">Past Events</p>
+  <div class="flex flex-col gap-2">
     {% for event in past %}
-    <a href="{% url 'event_detail' event.pk %}" class="card" style="padding: 16px; display: block; text-decoration: none; opacity: 0.6;">
-      <span class="badge badge-blue">{{ event.get_event_type_display }}</span>
-      <h3 style="font-size: 15px; font-weight: 600; color: var(--text); margin-top: 8px;">{{ event.title }}</h3>
-      <p style="font-size: 12px; color: var(--text-3); margin-top: 4px;">{{ event.event_date|date:"M d, Y" }}</p>
+    <a href="{% url 'event_detail' event.pk %}" class="bg-white dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-3 flex items-center justify-between opacity-60 hover:opacity-100 transition-opacity">
+      <div>
+        <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ event.title }}</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500">{{ event.event_date|date:"M d, Y" }} - {{ event.participant_count }} attended</p>
+      </div>
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark flex-shrink-0">{{ event.get_event_type_display }}</span>
     </a>
-    {% empty %}
-    <p style="font-size: 13px; color: var(--text-3);">No past events.</p>
     {% endfor %}
   </div>
+  {% endif %}
 
 </div>
 {% endblock %}

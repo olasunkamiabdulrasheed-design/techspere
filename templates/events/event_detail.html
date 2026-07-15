@@ -1,77 +1,77 @@
-{% extends 'base.html' %}
-{% block title %}{{ event.title }} — TechSphere{% endblock %}
+﻿{% extends 'base.html' %}
+{% block title %}{{ event.title }} - TechSphere{% endblock %}
 {% block content %}
-<div style="max-width: 720px; margin: 0 auto;">
-  <a href="{% url 'event_list' %}" style="font-size: 12px; color: var(--text-3); text-decoration: none; display: inline-block; margin-bottom: 20px;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-3)'">← Back to Events</a>
-  <div class="card" style="overflow: hidden; margin-bottom: 16px;">
-    <div style="background: var(--accent-light); border-bottom: 1px solid var(--border); padding: 24px 24px 20px;">
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
-        <div style="flex: 1; min-width: 0;">
-          {% if event.event_type == 'hackathon' %}<span class="badge badge-purple" style="margin-bottom: 10px; display: inline-block;">🚀 {{ event.get_event_type_display }}</span>
-          {% elif event.event_type == 'workshop' %}<span class="badge badge-blue" style="margin-bottom: 10px; display: inline-block;">🛠 {{ event.get_event_type_display }}</span>
-          {% elif event.event_type == 'webinar' %}<span class="badge badge-green" style="margin-bottom: 10px; display: inline-block;">🎥 {{ event.get_event_type_display }}</span>
-          {% elif event.event_type == 'competition' %}<span class="badge badge-yellow" style="margin-bottom: 10px; display: inline-block;">🏆 {{ event.get_event_type_display }}</span>
-          {% else %}<span class="badge badge-blue" style="margin-bottom: 10px; display: inline-block;">📍 {{ event.get_event_type_display }}</span>{% endif %}
-          <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 8px;">{{ event.title }}</h1>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div class="avatar avatar-sm">{{ event.organizer.username|slice:":1"|upper }}</div>
-            <span style="font-size: 13px; color: var(--text-2);">Organized by <strong>{{ event.organizer.username }}</strong></span>
+<div class="max-w-3xl mx-auto px-6 py-8">
+  <a href="{% url 'event_list' %}" class="text-xs text-gray-500 dark:text-gray-400 hover:text-accent dark:hover:text-accent-dark mb-5 inline-block">&larr; Back to Events</a>
+
+  <div class="bg-white dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm overflow-hidden">
+
+    <div class="p-7 border-b border-gray-100 dark:border-gray-800">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark inline-block mb-2.5">{{ event.get_event_type_display }}</span>
+          <h1 class="text-xl font-bold text-gray-900 dark:text-white leading-snug mb-2">{{ event.title }}</h1>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-accent-light dark:bg-accent-dark-light flex items-center justify-center text-[11px] font-semibold text-accent dark:text-accent-dark">{{ event.organizer.username|slice:":1"|upper }}</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">Organized by <strong class="text-gray-700 dark:text-gray-300">{{ event.organizer.username }}</strong></span>
           </div>
         </div>
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; text-align: center; flex-shrink: 0; min-width: 70px;">
-          <p style="font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em;">{{ event.event_date|date:"M" }}</p>
-          <p style="font-size: 28px; font-weight: 700; color: var(--text); line-height: 1;">{{ event.event_date|date:"d" }}</p>
-          <p style="font-size: 11px; color: var(--text-3);">{{ event.event_date|date:"Y" }}</p>
+        <div class="bg-gray-50 dark:bg-[#0d1117] border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center flex-shrink-0 min-w-[72px]">
+          <p class="text-[11px] font-bold text-accent dark:text-accent-dark uppercase tracking-wide">{{ event.event_date|date:"M" }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white leading-none">{{ event.event_date|date:"d" }}</p>
+          <p class="text-[11px] text-gray-400 dark:text-gray-500">{{ event.event_date|date:"Y" }}</p>
         </div>
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border);">
-      <div style="padding: 14px 20px; border-right: 1px solid var(--border);">
-        <p style="font-size: 10px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;">Time</p>
-        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.event_date|date:"g:i A" }}</p>
+
+    <div class="grid grid-cols-3 border-b border-gray-100 dark:border-gray-800">
+      <div class="px-5 py-3.5 border-r border-gray-100 dark:border-gray-800">
+        <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">Time</p>
+        <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ event.event_date|date:"g:i A" }}</p>
       </div>
-      <div style="padding: 14px 20px; border-right: 1px solid var(--border);">
-        <p style="font-size: 10px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;">Location</p>
-        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.location|default:"TBA" }}</p>
+      <div class="px-5 py-3.5 border-r border-gray-100 dark:border-gray-800">
+        <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">Location</p>
+        <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ event.location|default:"TBA" }}</p>
       </div>
-      <div style="padding: 14px 20px;">
-        <p style="font-size: 10px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;">Registered</p>
-        <p style="font-size: 13px; font-weight: 600; color: var(--text);">{{ event.participant_count }}{% if event.max_participants %} / {{ event.max_participants }}{% endif %}</p>
+      <div class="px-5 py-3.5">
+        <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">Registered</p>
+        <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ event.participant_count }}{% if event.max_participants %} / {{ event.max_participants }}{% endif %}</p>
       </div>
     </div>
-    <div style="padding: 24px;">
+
+    <div class="p-7">
       {% if event.prize %}
-      <div style="background: var(--yellow-bg); border: 1px solid var(--yellow); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 20px;">🏆</span>
-        <div>
-          <p style="font-size: 11px; font-weight: 600; color: var(--yellow); text-transform: uppercase; letter-spacing: 0.06em;">Prize</p>
-          <p style="font-size: 14px; font-weight: 700; color: var(--text);">{{ event.prize }}</p>
-        </div>
+      <div class="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800/40 rounded-lg px-4 py-3 mb-5">
+        <p class="text-[11px] font-semibold uppercase tracking-wide text-yellow-700 dark:text-yellow-400">Prize</p>
+        <p class="text-sm font-bold text-gray-900 dark:text-white">{{ event.prize }}</p>
       </div>
       {% endif %}
-      <p style="font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">About this Event</p>
-      <p style="font-size: 14px; color: var(--text-2); line-height: 1.8; white-space: pre-line;">{{ event.description }}</p>
-      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+
+      <p class="text-[11px] font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2.5">About this Event</p>
+      <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">{{ event.description }}</p>
+
+      <div class="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between flex-wrap gap-3">
         <div>
-          {% if event.registration_deadline %}<p style="font-size: 12px; color: var(--text-3);">Registration closes {{ event.registration_deadline|date:"M d, Y" }}</p>{% endif %}
-          {% if event.is_full %}<p style="font-size: 12px; color: var(--red);">This event is full.</p>{% endif %}
+          {% if event.registration_deadline %}<p class="text-xs text-gray-400 dark:text-gray-500">Registration closes {{ event.registration_deadline|date:"M d, Y" }}</p>{% endif %}
+          {% if event.is_full %}<p class="text-xs text-red-500 dark:text-red-400">This event is full.</p>{% endif %}
         </div>
         {% if user.is_authenticated %}
           {% if is_registered %}
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="badge badge-green" style="padding: 8px 16px; font-size: 12px;">✓ You're registered!</span>
-            <a href="{% url 'event_unregister' event.pk %}" style="font-size: 12px; color: var(--red); text-decoration: none;">Cancel registration</a>
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold px-3.5 py-2 rounded-full bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">You're registered</span>
+            <a href="{% url 'event_unregister' event.pk %}" class="text-xs text-red-500 dark:text-red-400 hover:underline">Cancel registration</a>
           </div>
           {% elif event.is_full %}
-          <span class="badge badge-red" style="padding: 8px 16px; font-size: 12px;">Event Full</span>
+          <span class="text-xs font-semibold px-3.5 py-2 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400">Event Full</span>
           {% else %}
-          <a href="{% url 'event_register' event.pk %}" class="btn btn-primary" style="padding: 10px 24px;">Register Now — It's Free</a>
+          <a href="{% url 'event_register' event.pk %}" class="inline-flex items-center justify-center px-6 py-2.5 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">Register Now - It's Free</a>
           {% endif %}
         {% else %}
-        <a href="{% url 'login' %}" class="btn btn-outline">Log in to Register</a>
+        <a href="{% url 'login' %}" class="inline-flex items-center justify-center px-6 py-2.5 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-[#0d1117] transition-colors">Log in to Register</a>
         {% endif %}
       </div>
     </div>
+
   </div>
 </div>
 {% endblock %}
