@@ -41,9 +41,10 @@
 
 <!-- TOPBAR -->
 <header class="fixed top-0 left-0 right-0 z-[200] h-[52px] bg-white/95 dark:bg-[#24292e]/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 flex items-center px-5 gap-3">
+    <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 flex-shrink-0 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-[#f3f2ef] dark:hover:bg-[#1b1f23] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     <a href="/" class="text-lg font-bold text-accent dark:text-accent-dark tracking-tight min-w-[180px] flex-shrink-0">TechSphere</a>
 
-    <div class="flex-1 max-w-[300px]">
+    <div class="hidden sm:block flex-1 max-w-[300px]">
         <form method="get" action="{% url 'search' %}">
             <input type="text" name="q" placeholder="Search TechSphere..." value="{{ request.GET.q }}"
                 class="w-full bg-[#f3f2ef] dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-md px-3.5 py-1.5 text-sm text-inherit outline-none transition-colors focus:border-accent dark:focus:border-accent-dark focus:bg-white dark:focus:bg-[#24292e] placeholder-gray-400 dark:placeholder-gray-500">
@@ -170,6 +171,10 @@
 </div>
 
 <script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("-translate-x-full");
+        document.getElementById("sidebar-backdrop").classList.toggle("hidden");
+    }
     function toggleTheme() {
         const html = document.documentElement;
         const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -183,4 +188,7 @@
 </script>
 </body>
 </html>
+
+
+
 
