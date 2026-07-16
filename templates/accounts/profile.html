@@ -1,53 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="max-w-2xl mx-auto px-6 py-12">
-    <div class="p-8 bg-white/5 rounded-2xl border border-white/10">
-
-        <div class="flex items-start justify-between">
-            <div class="flex items-center gap-4">
+<div class="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
+    <div class="p-5 sm:p-8 bg-white/5 rounded-2xl border border-white/10">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 min-w-0">
                 {% if profile_user.profile_photo %}
-                <img src="{{ profile_user.profile_photo.url }}" class="w-16 h-16 rounded-full object-cover">
+                <img src="{{ profile_user.profile_photo.url }}" class="w-16 h-16 rounded-full object-cover flex-shrink-0">
                 {% else %}
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xl font-bold">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xl font-bold flex-shrink-0">
                     {{ profile_user.username|slice:":1"|upper }}
                 </div>
                 {% endif %}
-                <div>
-                    <h1 style="font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">{{ profile_user.username }}</h1>
-                    <p style="font-size: 13px; color: var(--text-3);">{{ profile_user.get_experience_level_display }}</p>
-                {% if user_xp %}
-                    <span class="badge {{ user_xp.rank_color }}" style="margin-top: 4px; display: inline-block;">{{ user_xp.rank }} · {{ user_xp.total_xp }} XP</span>
-                {% endif %}
 
-                    
+                <div class="min-w-0">
+                    <h1 class="text-xl sm:text-2xl font-bold text-[var(--text)] truncate">
+                        {{ profile_user.username }}
+                    </h1>
+                    <p class="text-sm text-[var(--text-3)] mt-1">
+                        {{ profile_user.get_experience_level_display }}
+                    </p>
+
+                    {% if user_xp %}
+                    <span class="badge {{ user_xp.rank_color }} mt-2 inline-flex">
+                        {{ user_xp.rank }} · {{ user_xp.total_xp }} XP
+                    </span>
+                    {% endif %}
                 </div>
             </div>
 
+            <div class="w-full sm:w-auto flex flex-col sm:flex-row gap-2 sm:items-center">
+                {% if user != profile_user and user.is_authenticated %}
+                <a href="{% url 'start_conversation' profile_user.username %}"
+                    class="w-full sm:w-auto text-center text-sm bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
+                    Message
+                </a>
+                {% endif %}
 
-            {% if user != profile_user and user.is_authenticated %}
-            <a href="{% url 'start_conversation' profile_user.username %}"
-                class="text-sm bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">
-                Message
-            </a>
-            {% endif %}
-            
-            {% if user == profile_user %}
-            <a href="{% url 'profile_edit' %}"
-                class="text-sm border border-white/20 hover:border-blue-500 px-4 py-2 rounded-lg transition">
-                Edit Profile
-            </a>
-            {% endif %}
+                {% if user == profile_user %}
+                <a href="{% url 'profile_edit' %}"
+                    class="w-full sm:w-auto text-center text-sm border border-white/20 hover:border-blue-500 px-4 py-2 rounded-lg transition">
+                    Edit Profile
+                </a>
+                {% endif %}
+            </div>
         </div>
 
-        <p class="text-gray-300 mt-6 leading-relaxed">{{ profile_user.bio|default:"No bio yet." }}</p>
+        <p class="text-gray-300 mt-6 leading-relaxed text-sm sm:text-base">
+            {{ profile_user.bio|default:"No bio yet." }}
+        </p>
 
         {% if profile_user.skills %}
         <div class="mt-6">
             <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Skills</p>
             <div class="flex flex-wrap gap-2">
                 {% for skill in profile_user.skills_list %}
-                <span class="text-sm px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20">{{ skill }}</span>
+                <span class="text-sm px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                    {{ skill }}
+                </span>
                 {% endfor %}
             </div>
         </div>
@@ -56,17 +66,22 @@
         {% if profile_user.github_link or profile_user.linkedin_link or profile_user.portfolio_link %}
         <div class="mt-6 flex flex-wrap gap-4 text-sm">
             {% if profile_user.github_link %}
-            <a href="{{ profile_user.github_link }}" target="_blank" class="text-blue-400 hover:underline">GitHub</a>
+            <a href="{{ profile_user.github_link }}" target="_blank" class="text-blue-400 hover:underline">
+                GitHub
+            </a>
             {% endif %}
             {% if profile_user.linkedin_link %}
-            <a href="{{ profile_user.linkedin_link }}" target="_blank" class="text-blue-400 hover:underline">LinkedIn</a>
+            <a href="{{ profile_user.linkedin_link }}" target="_blank" class="text-blue-400 hover:underline">
+                LinkedIn
+            </a>
             {% endif %}
             {% if profile_user.portfolio_link %}
-            <a href="{{ profile_user.portfolio_link }}" target="_blank" class="text-blue-400 hover:underline">Portfolio</a>
+            <a href="{{ profile_user.portfolio_link }}" target="_blank" class="text-blue-400 hover:underline">
+                Portfolio
+            </a>
             {% endif %}
         </div>
         {% endif %}
-
     </div>
 </div>
 
