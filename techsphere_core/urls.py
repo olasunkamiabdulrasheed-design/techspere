@@ -29,6 +29,7 @@ urlpatterns = [
     path('messages/', include('messaging.urls')),
     path('jobs/', include('jobs.urls')),
     path('events/', include('events.urls')),
+    path('ai/', include('ai_tools.urls')),
 ]
 
 

@@ -171,6 +171,7 @@ INSTALLED_APPS = [
     'jobs',
     'gamification',
     'events',
+    'ai_tools'
 ]
 
 MIDDLEWARE = [
