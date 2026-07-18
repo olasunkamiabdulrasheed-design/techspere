@@ -54,5 +54,8 @@ def resource_download(request, pk):
     resource.download_count += 1
     resource.save(update_fields=["download_count"])
     if resource.file:
-        return redirect(resource.file.url)
+        file_url = resource.file.url
+        if "/upload/" in file_url:
+            file_url = file_url.replace("/upload/", "/upload/fl_attachment/")
+        return redirect(file_url)
     return redirect(resource.external_link)
