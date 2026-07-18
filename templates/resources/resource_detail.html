@@ -1,0 +1,30 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ resource.title }} - TechSphere{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto px-6 py-8">
+  <a href="{% url 'resource_list' %}" class="text-xs text-gray-500 dark:text-gray-400 hover:text-accent dark:hover:text-accent-dark mb-5 inline-block">&larr; Back to Resource Library</a>
+
+  <div class="bg-white dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-7">
+    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark inline-block mb-3">{{ resource.get_category_display }}</span>
+
+    <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ resource.title }}</h1>
+
+    <div class="flex items-center gap-2 mb-5">
+      <div class="w-6 h-6 rounded-full bg-accent-light dark:bg-accent-dark-light flex items-center justify-center text-[11px] font-semibold text-accent dark:text-accent-dark">{{ resource.uploader.username|slice:":1"|upper }}</div>
+      <span class="text-sm text-gray-500 dark:text-gray-400">Shared by <strong class="text-gray-700 dark:text-gray-300">{{ resource.uploader.username }}</strong> - {{ resource.created_at|timesince }} ago</span>
+    </div>
+
+    {% if resource.description %}
+    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line mb-6">{{ resource.description }}</p>
+    {% endif %}
+
+    <div class="flex items-center justify-between pt-5 border-t border-gray-100 dark:border-gray-800">
+      <span class="text-xs text-gray-400 dark:text-gray-500">{{ resource.download_count }} download{{ resource.download_count|pluralize }}</span>
+      <a href="{% url 'resource_download' resource.pk %}"
+        class="inline-flex items-center justify-center px-6 py-2.5 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">
+        {% if resource.file %}Download{% else %}Open Link{% endif %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

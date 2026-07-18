@@ -1,0 +1,62 @@
+﻿{% extends 'base.html' %}
+{% block title %}Resource Library - TechSphere{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-6 py-8">
+
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <div>
+      <h1 class="text-xl font-bold text-gray-900 dark:text-white">Resource Library</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Roadmaps, templates, e-books, and guides shared by the community.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'resource_create' %}" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">
+      + Upload Resource
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="flex gap-2 flex-wrap mb-6">
+    <a href="{% url 'resource_list' %}"
+      class="text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors {% if not selected_category %}bg-accent dark:bg-accent-dark text-white{% else %}bg-white dark:bg-[#1b1f23] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700{% endif %}">
+      All
+    </a>
+    {% for value, label in categories %}
+    <a href="?category={{ value }}"
+      class="text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors {% if selected_category == value %}bg-accent dark:bg-accent-dark text-white{% else %}bg-white dark:bg-[#1b1f23] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700{% endif %}">
+      {{ label }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {% for resource in resources %}
+    <a href="{% url 'resource_detail' resource.pk %}" class="bg-white dark:bg-[#1b1f23] border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-accent dark:hover:border-accent-dark transition-colors flex flex-col gap-2.5">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-light dark:bg-accent-dark-light text-accent dark:text-accent-dark">{{ resource.get_category_display }}</span>
+        {% if resource.file %}
+        <span class="text-xs text-gray-400 dark:text-gray-500">File</span>
+        {% else %}
+        <span class="text-xs text-gray-400 dark:text-gray-500">Link</span>
+        {% endif %}
+      </div>
+      <h3 class="text-sm font-bold text-gray-900 dark:text-white leading-snug">{{ resource.title }}</h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed flex-1">{{ resource.description|truncatechars:90 }}</p>
+      <div class="border-t border-gray-100 dark:border-gray-800 pt-2.5 flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <div class="w-5 h-5 rounded-full bg-accent-light dark:bg-accent-dark-light flex items-center justify-center text-[10px] font-semibold text-accent dark:text-accent-dark">{{ resource.uploader.username|slice:":1"|upper }}</div>
+          <span class="text-xs text-gray-400 dark:text-gray-500">{{ resource.uploader.username }}</span>
+        </div>
+        <span class="text-xs text-gray-400 dark:text-gray-500">{{ resource.download_count }} downloads</span>
+      </div>
+    </a>
+    {% empty %}
+    <div class="col-span-full bg-white dark:bg-[#1b1f23] border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-12 text-center">
+      <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">No resources yet</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Be the first to share something useful.</p>
+      {% if user.is_authenticated %}<a href="{% url 'resource_create' %}" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover dark:bg-accent-dark dark:hover:bg-accent-dark-hover text-white text-sm font-semibold rounded-lg transition-colors">Upload a Resource</a>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-"""
+﻿"""
 URL configuration for techsphere_core project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -30,6 +30,10 @@ urlpatterns = [
     path('jobs/', include('jobs.urls')),
     path('events/', include('events.urls')),
     path('ai/', include('ai_tools.urls')),
+    path('resources/', include('resources.urls')),
+    path('resources/', include('resources.urls')),
 ]
+
+
 
 
