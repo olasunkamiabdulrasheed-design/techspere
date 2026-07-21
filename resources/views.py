@@ -5,13 +5,18 @@ from .models import Resource
 
 def resource_list(request):
     category = request.GET.get("category", "")
+    resource_type = request.GET.get("resource_type", "")
     resources = Resource.objects.all()
     if category:
         resources = resources.filter(category=category)
+    if resource_type:
+        resources = resources.filter(resource_type=resource_type)
     return render(request, "resources/resource_list.html", {
         "resources": resources,
         "categories": Resource.CATEGORY_CHOICES,
+        "types": Resource.TYPE_CHOICES,
         "selected_category": category,
+        "selected_type": resource_type,
     })
 
 
@@ -26,6 +31,7 @@ def resource_create(request):
         title = (request.POST.get("title") or "").strip()[:255]
         description = (request.POST.get("description") or "").strip()[:2000]
         category = request.POST.get("category")
+        resource_type = request.POST.get("resource_type")
         external_link = (request.POST.get("external_link") or "").strip()[:500]
         file = request.FILES.get("file")
 
@@ -33,12 +39,17 @@ def resource_create(request):
         if category not in valid_categories:
             category = "other"
 
+        valid_types = [t[0] for t in Resource.TYPE_CHOICES]
+        if resource_type not in valid_types:
+            resource_type = "other"
+
         if title and (file or external_link):
             Resource.objects.create(
                 uploader=request.user,
                 title=title,
                 description=description,
                 category=category,
+                resource_type=resource_type,
                 file=file,
                 external_link=external_link,
             )
@@ -46,6 +57,7 @@ def resource_create(request):
 
     return render(request, "resources/resource_create.html", {
         "categories": Resource.CATEGORY_CHOICES,
+        "types": Resource.TYPE_CHOICES,
     })
 
 
